@@ -10,7 +10,6 @@ class Main():
         down = Downloader()
         down.get_url(self.url_base)
         down.get_file()
-        print(down.url)
 if __name__ == "__main__":
     app = Main()
     app.run()

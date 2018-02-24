@@ -15,7 +15,6 @@ class Downloader():
         self.url = 'https://www.curseforge.com' + url_final[0]
         self.filename = base_url
         self.filename = self.filename.replace("https://www.curseforge.com/minecraft/modpacks/", "")
-        print(self.filename)
     def get_file(self):
         self.temp_file = requests.get(self.url, stream=True)
         self.path = '/home/gustavo/Projects/'+ self.filename +'.zip'
