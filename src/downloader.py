@@ -1,6 +1,7 @@
 import requests
 from clint.textui import progress
 import lxml.html
+import os
 class Downloader():
     def __init__(self):
         self.url = ''
@@ -15,14 +16,21 @@ class Downloader():
         self.url = 'https://www.curseforge.com' + url_final[0]
         self.filename = base_url
         self.filename = self.filename.replace("https://www.curseforge.com/minecraft/modpacks/", "")
-    def get_file(self):
+        self.filename = self.filename + ".zip"
+        print(self.filename)
+    
+    def get_file(self, path=None):
         self.temp_file = requests.get(self.url, stream=True)
-        self.path = '/home/gustavo/Projects/'+ self.filename +'.zip'
+        if path == None:
+            self.path = os.path.join(os.getcwd(), self.filename)
+        else:
+            self.path = os.path.join(path, self.filename)
         with open(self.path, 'wb') as out:
             total_length = int(self.temp_file.headers.get('content-length'))
             for chunk in progress.bar(self.temp_file.iter_content
-                                     (chunk_size=1024),
-                                     expected_size=(total_length/1024) + 1): 
+                                     (chunk_size=1000024),
+                                     expected_size=(float(total_length/1000024)) + 1,
+                                     label=self.filename): 
                 if chunk:
                     out.write(chunk)
                     out.flush()
