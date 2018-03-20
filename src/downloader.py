@@ -8,7 +8,6 @@ class Downloader():
         pass
     def get_url(self, base_url):
         if base_url == '':
-           print("Url não encontrada !")
            return 1
         url_part = base_url + '/download?client=n'
         dom = lxml.html.fromstring(requests.get(url_part).content)
@@ -17,7 +16,6 @@ class Downloader():
         self.filename = base_url
         self.filename = self.filename.replace("https://www.curseforge.com/minecraft/modpacks/", "")
         self.filename = self.filename + ".zip"
-        print(self.filename)
     
     def get_file(self, path=None):
         self.temp_file = requests.get(self.url, stream=True)
@@ -28,8 +26,8 @@ class Downloader():
         with open(self.path, 'wb') as out:
             total_length = int(self.temp_file.headers.get('content-length'))
             for chunk in progress.bar(self.temp_file.iter_content
-                                     (chunk_size=1000024),
-                                     expected_size=(float(total_length/1000024)) + 1,
+                                     (chunk_size=1024),
+                                     expected_size=(float(total_length/1024)) + 1,
                                      label=self.filename): 
                 if chunk:
                     out.write(chunk)
