@@ -11,13 +11,15 @@ class Main():
         try:
             opts, args = getopt.getopt(argv,"hu:d:", ["help", "url", "dir"])
 
-        except getopt.GetoptError:
+        except getopt.GetoptError as error:
+            print(error)
             self.show_help()
             exit(2)
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
                 self.show_help()
+                exit(0)
             elif opt in ("-u", "--url"):
                 self.url_base = arg
             elif opt in ("-d", "--dir"):
@@ -36,4 +38,5 @@ class Main():
 if __name__ == "__main__":
     app = Main(sys.argv[1:])
     app.run()
+    exit(0)
 
